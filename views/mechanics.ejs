@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>mechanics</h1>
+    <% for(let index=0; index < mechanics.length; index++ ){ %>
+        <div>
+            <h2>id_number:<%= mechanics[index].id_number %></h2>
+            <p>full_name: <%= mechanics[index].full_name %></p>
+            <p>specialty: <%= mechanics[index].specialty %></p>
+            <p>phone: <%= mechanics[index].phone %></p>
+        </div>
+
+    <% }%>
+    
+</body>
+</html>

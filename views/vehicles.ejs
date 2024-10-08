@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>vehicles</h1>
+    <% for(let index=0; index < vehicles.length; index++ ){ %>
+        <div>
+            <h2><%= vehicles[index].number_plate %></h2>
+            <p>barand: <%= vehicles[index].brand %></p>
+            <p>color: <%= vehicles[index].color %></p>
+            <p>yom: <%= vehicles[index].yom %></p>
+        </div>
+
+    <% }%>
+
+    <style></style>
+    <!-- serving static -->
+
+    
+</body>
+</html>

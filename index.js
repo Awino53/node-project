@@ -1,59 +1,73 @@
-const express = require("express") //import in es6
-
-const server = express()
-
+ 
+const express = require("express") // import in es6 
+const server = express() /// server/app
+server.use(express.static("yakilamtu"))
+// middleware  ---  sits betweet any request and specific path/route requested
+server.use((req,res,next)=>{
+    console.log(req.path);
+    // protected routes 
+    
+    console.log("Middlew funxtion code running!!!!");
+    next()
+})
 const mysql      = require('mysql');
 const connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database :'carservice'
+  database : 'carserviceclass'
 });
 
 
 // callback hell
 
-server.get("/", (req,res)=>{
-    console.log("home/root/index/landing route");
-    res.send("Welcome to my home page");
-    
+server.get("/",(req,res)=>{
+    console.log("Home/Root/Index/Landing Route");
+    res.render("home.ejs")
 })
-server.get("/vehicles",(req,res)=>{
+
+server.get("/about",function authenticateUSer(req,res,next){
+    console.log("Authenitcating user -- makaing sure person is logged innnn");
+    next()
+}, (req,res)=>{
+    console.log("About page/route/path/URI");
+    res.send("About Page")
+})
+server.get("/vehicles",(req,res,next)=>{
+    if(10<12){
+        res.send("Not authorized!!")
+    }else{
+        next()
+    }
+}, (req,res)=>{
     connection.query("SELECT * FROM vehicles", (err,vehicles)=>{
         if(!err){
             console.log(vehicles);
-            res.render("vehicles.ejs",{vehicles});
+            res.json(vehicles)
         }else{
             console.log(err);
-            res.status(500).send("Error");
+            res.status(500).send("Server Error")
         }
     })
-
 })
-server.get("/mechanics",(req,res)=>{
-    connection.query("SELECT * FROM mechanics", (err,mechanics)=>{
-        if(!err){
-            console.log(mechanics);
-            res.render("mechanics.ejs",{mechanics});
-        }else{
-            console.log(err);
-            res.status(500).send("Error");
-        }
-    })
+// send mechanics data to the client through /mechanics get route
 
+// other routes/paths/URIs
+server.get("*", (req,res)=>{
+    console.log("Unidentified route");
+    res.status(404).send("Page/Resource Not Found")    
 })
 
-server.get("/about", (req, res)=>{
-    console.log("about page/route/path/URI");
-    res.send("Welcome to my about page");
-    
-})
-//other routes/paths/URIs
-server.get("*", (req, res)=>{
-    console.log("unidentified route");
-    console.log("404 not found/page not found");
-})
-server.listen(3000, () => console.log("starting server on PORT 3000"))
+server.listen(3000, ()=>console.log("Starting Server on PORT 3000") )
 
-//http
-//authentication and authorization
+// HTTP 
+// Authention and Authorization --- 
+
+
+
+// web app -- web site 
+// get - home route , /about route, /gallery route, /contact route
+//post route -- contact -- save message, email, phone in a database 
+// -- create a db with one table-messages-- message , phone, email
+// -- create a form in the home.ejs file -- with input fields for message, email,
+// phone
